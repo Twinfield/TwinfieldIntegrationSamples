@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 using System.Xml;
 using OAuth2ExampleApp.TwinfieldProcessXml;
@@ -19,7 +19,7 @@ namespace OAuth2ExampleApp
 		const string RedirectUri = "oob://oauth2exampleapp/redirecturi";
 
 		const string AuthorizationEndPoint = "https://login.twinfield.com/auth/authentication/connect/authorize";
-		
+
 		public Form1()
 		{
 			InitializeComponent();
@@ -31,20 +31,21 @@ namespace OAuth2ExampleApp
 
 			webView.NavigateToString(GetHtmlMessage(
 				"Press Login to start the journey",
-				"Make sure you create a client first at https://developers.twinfield.com and updated the code."));
+				"Make sure you create a client first at https://developers.twinfield.com and update the code."));
 		}
 
 		async void btnLogin_Click(object sender, EventArgs e)
 		{
-			var targetUri = new StringBuilder(AuthorizationEndPoint);
-			targetUri.Append($"?client_id={WebUtility.UrlEncode(ClientId)}");
-			targetUri.Append("&response_type=token");
-			targetUri.Append("&scope=twf.organisationUser+twf.organisation");
-			targetUri.Append($"&redirect_uri={WebUtility.UrlEncode(RedirectUri)}");
-			targetUri.Append($"&state={WebUtility.UrlEncode(Guid.NewGuid().ToString())}");
-			targetUri.Append($"&nonce={WebUtility.UrlEncode(Guid.NewGuid().ToString())}");
+			var queryString = HttpUtility.ParseQueryString("");
+			queryString["client_id"] = ClientId;
+			queryString["response_type"] = "token";
+			queryString["scope"] = "twf.organisationUser twf.organisation";
+			queryString["redirect_uri"] = RedirectUri;
+			queryString["state"] = Guid.NewGuid().ToString();
+			queryString["nonce"] = Guid.NewGuid().ToString();
 
-			var authorizationUrl = targetUri.ToString();
+			var authorizationUrl = $"{AuthorizationEndPoint}?{queryString}";
+
 			textBoxUrl.Text = authorizationUrl;
 
 			await Navigate(authorizationUrl);
@@ -67,24 +68,31 @@ namespace OAuth2ExampleApp
 		/// </summary>
 		void webView_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
 		{
-			if (!e.Uri.StartsWith(RedirectUri)) 
+			if (!e.Uri.StartsWith(RedirectUri))
 				return;
 
 			e.Cancel = true;
 
-			var queryString = e.Uri.Substring(e.Uri.IndexOf("#"));
-			var beginOfAccessToken = queryString.IndexOf("access_token=") + 13;
-			var jwtToken = queryString.Substring(beginOfAccessToken,
-				queryString.IndexOf("&", beginOfAccessToken) - beginOfAccessToken);
+			var uri = new Uri(e.Uri);
+			var fragment = uri.Fragment.Substring(1);
+			var parameters = HttpUtility.ParseQueryString(fragment);
 
+			var error = parameters["error"];
+			if (!string.IsNullOrEmpty(error))
+			{
+				webView.NavigateToString(GetHtmlMessage($"Error", error));
+				return;
+			}
+
+			var accessToken = parameters["access_token"];
 			var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-			var parsedToken = tokenHandler.ReadJwtToken(jwtToken);
+			var accessTokenHeader = tokenHandler.ReadJwtToken(accessToken);
 
-			var user = parsedToken.Claims.First(c => c.Type == "twf.organisationUserCode").Value;
-			var organisation = parsedToken.Claims.First(c => c.Type == "twf.organisationCode").Value;
-			var clusterUrl = parsedToken.Claims.First(c => c.Type == "twf.clusterUrl").Value;
+			var user = accessTokenHeader.Claims.First(c => c.Type == "twf.organisationUserCode").Value;
+			var organisation = accessTokenHeader.Claims.First(c => c.Type == "twf.organisationCode").Value;
+			var clusterUrl = accessTokenHeader.Claims.First(c => c.Type == "twf.clusterUrl").Value;
 
-			var companies = GetCompanies(jwtToken, clusterUrl).ToArray();
+			var companies = GetCompanies(accessToken, clusterUrl).ToArray();
 
 			ShowTokenAndResponseInformation(user, organisation, companies);
 		}
@@ -94,16 +102,16 @@ namespace OAuth2ExampleApp
 			var htmlContent = new StringBuilder();
 			htmlContent.Append("<html><body>");
 			htmlContent.Append("<h1>User</h1>");
-			htmlContent.Append($"<p>{WebUtility.HtmlEncode(user)} in organisation {WebUtility.HtmlEncode(organisation)}</p>");
+			htmlContent.Append($"<p>{HttpUtility.HtmlEncode(user)} in organisation {HttpUtility.HtmlEncode(organisation)}.</p>");
 
 			htmlContent.Append("<h1>Companies</h1>");
 			htmlContent.Append("<ul>");
 
 			foreach (var company in companies)
-				htmlContent.Append($"<li>{WebUtility.HtmlEncode(company)}</li>");
+				htmlContent.Append($"<li>{HttpUtility.HtmlEncode(company)}</li>");
 
 			htmlContent.Append("</ul>");
-			htmlContent.Append("</BODY></HTML>");
+			htmlContent.Append("</body></html>");
 
 			webView.NavigateToString(htmlContent.ToString());
 		}
@@ -115,7 +123,7 @@ namespace OAuth2ExampleApp
 				new EndpointAddress(clusterUrl + "/webservices/processxml.asmx"));
 
 			var result = processXmlService.ProcessXmlString(
-				new Header() {AccessToken = accessToken}, "<list><type>offices</type></list>");
+				new Header() { AccessToken = accessToken }, "<list><type>offices</type></list>");
 
 			var doc = new XmlDocument();
 			doc.LoadXml(result);
@@ -129,8 +137,8 @@ namespace OAuth2ExampleApp
 			return
 				$@"<html>
 					<body>
-						<h1>{WebUtility.HtmlEncode(title)}</h1>
-						<p>{WebUtility.HtmlEncode(body)}</p>
+						<h1>{HttpUtility.HtmlEncode(title)}</h1>
+						<p>{HttpUtility.HtmlEncode(body)}</p>
 					</body>
 				</html>";
 		}
