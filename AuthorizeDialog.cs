@@ -67,6 +67,7 @@ namespace OAuth2ExampleApp
 			if (!string.IsNullOrEmpty(error))
 			{
 				result = AuthorizeResult.Error(error);
+				Close();
 				return;
 			}
 
@@ -74,6 +75,7 @@ namespace OAuth2ExampleApp
 			if (state != oAuth2State)
 			{
 				result = AuthorizeResult.Error("State parameter mismatch.");
+				Close();
 				return;
 			}
 
