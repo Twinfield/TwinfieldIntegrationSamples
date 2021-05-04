@@ -8,9 +8,11 @@
 		public string Organisation { get; private set; }
 		public string ClusterUrl { get; private set; }
 		public string Message { get; private set; }
+		public string State { get; private set; }
 
 
-		public static AuthorizeResult Authenticated(string accessToken, string user, string organisation, string clusterUrl)
+		public static AuthorizeResult Authenticated(string accessToken, string user, string organisation,
+			string clusterUrl, string state)
 		{
 			return new AuthorizeResult
 			{
@@ -18,7 +20,8 @@
 				AccessToken = accessToken,
 				User = user,
 				Organisation = organisation,
-				ClusterUrl = clusterUrl
+				ClusterUrl = clusterUrl,
+				State = state
 			};
 		}
 

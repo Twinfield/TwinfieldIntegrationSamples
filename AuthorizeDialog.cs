@@ -10,6 +10,8 @@ namespace OAuth2ExampleApp
 		const string AuthorizationEndPoint = "https://login.twinfield.com/auth/authentication/connect/authorize";
 		readonly string clientId;
 		readonly string redirectUri;
+		string oAuth2State;
+
 		AuthorizeResult result;
 
 		public AuthorizeDialog(string clientId, string redirectUri)
@@ -22,7 +24,8 @@ namespace OAuth2ExampleApp
 
 		void NavigateToAuthorizationPage()
 		{
-			webView.Source = BuildAuthorizationUrl(clientId, redirectUri);
+			oAuth2State = Guid.NewGuid().ToString();
+			webView.Source = BuildAuthorizationUrl(clientId, redirectUri, oAuth2State);
 		}
 
 		internal static AuthorizeResult Show(string clientId, string redirectUri)
@@ -34,16 +37,18 @@ namespace OAuth2ExampleApp
 			}
 		}
 
-		static Uri BuildAuthorizationUrl(string clientId, string redirectUri)
+		static Uri BuildAuthorizationUrl(string clientId, string redirectUri, string oAuth2State)
 		{
 			var queryString = HttpUtility.ParseQueryString("");
 			queryString["client_id"] = clientId;
 			queryString["response_type"] = "token";
 			queryString["scope"] = "twf.organisationUser twf.organisation";
 			queryString["redirect_uri"] = redirectUri;
-			queryString["state"] = Guid.NewGuid().ToString();
-			queryString["nonce"] = Guid.NewGuid().ToString();
+			queryString["state"] = oAuth2State;
 
+			// nonce is mandatory for all authorization requests, while it should only be mandatory in case of OpenID Connect.
+			queryString["nonce"] = Guid.NewGuid().ToString();
+			
 			return new Uri($"{AuthorizationEndPoint}?{queryString}");
 		}
 
@@ -65,6 +70,13 @@ namespace OAuth2ExampleApp
 				return;
 			}
 
+			var state = parameters["state"];
+			if (state != oAuth2State)
+			{
+				result = AuthorizeResult.Error("State parameter mismatch.");
+				return;
+			}
+
 			var accessToken = parameters["access_token"];
 			var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
 			var accessTokenHeader = tokenHandler.ReadJwtToken(accessToken);
@@ -73,7 +85,8 @@ namespace OAuth2ExampleApp
 				accessToken,
 				accessTokenHeader.Claims.Single(c => c.Type == "twf.organisationUserCode").Value,
 				accessTokenHeader.Claims.Single(c => c.Type == "twf.organisationCode").Value,
-				accessTokenHeader.Claims.Single(c => c.Type == "twf.clusterUrl").Value);
+				accessTokenHeader.Claims.Single(c => c.Type == "twf.clusterUrl").Value, 
+				state);
 
 			Close();
 		}
