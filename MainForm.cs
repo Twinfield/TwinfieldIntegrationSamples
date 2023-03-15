@@ -47,10 +47,17 @@ namespace OAuth2ExampleApp
 
 			var doc = XDocument.Parse(result);
 			var offices = doc.Root?.Elements("office").ToArray();
+			Log($"Access token : {accessToken}");
+			AppendNewLine();
+			Log($"Cluster url : {clusterUrl}");
+			AppendNewLine();
 			Log($"Found {offices?.Length} companies");
-			if (offices != null)
+			AppendNewLine();
+			Log($"Displaying first 10 companies");
+			AppendNewLine();
+			if (offices != null && offices.Any())
 			{
-				foreach (var office in offices)
+				foreach (var office in offices.Take(10))
 					Log($"{office.Attribute("name")?.Value} [{office.Value}]");
 			}
 		}
@@ -61,5 +68,8 @@ namespace OAuth2ExampleApp
 			txtLog.AppendText(Environment.NewLine);
 			txtLog.SelectionStart = Int32.MaxValue;
 		}
+
+		void AppendNewLine() => txtLog.AppendText(Environment.NewLine);
+		
 	}
 }
