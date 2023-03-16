@@ -44,6 +44,7 @@ static void GetCompanies(string accessToken, string clusterUrl)
 	}
 	catch (FaultException ex)
 	{
+		WriteLine("Error occurred while processing the xml request.");
 		WriteLine(ex.Message);
 	}
 	catch (WebException ex)
@@ -52,6 +53,7 @@ static void GetCompanies(string accessToken, string clusterUrl)
 	}
 	catch (Exception ex)
 	{
+		WriteLine("Error occurred while processing the xml request.");
 		WriteLine(ex.Message);
 	}
 	WriteLine("Press any key to continue...\n");
@@ -103,6 +105,7 @@ void DisplayCustomers()
 	}
 	catch (Exception ex)
 	{
+		WriteLine("Error occurred while processing the request.");
 		WriteLine(ex.Message);
 	}
 
@@ -116,9 +119,9 @@ static void HandleWebException(WebException webException)
 {
 	if (webException == null) return;
 
-	Console.WriteLine("Error occurred while processing the xml request.");
+	WriteLine("Error occurred while processing the xml request.");
 	var statusCode = ((HttpWebResponse)webException.Response).StatusCode;
-	Console.WriteLine($"Http status code : {statusCode}");
+	WriteLine($"Http status code : {statusCode}");
 
 	if (statusCode != HttpStatusCode.Forbidden &&
 		 statusCode != HttpStatusCode.Unauthorized) return;
@@ -129,9 +132,9 @@ static void HandleWebException(WebException webException)
 	{
 		var descriptionDetails = statusDescription.Split(':');
 		if (descriptionDetails.Length <= 1) return;
-		Console.WriteLine($"Error code : {descriptionDetails[0].Trim()}");
-		Console.WriteLine($"Error description : {descriptionDetails[1].Trim()}");
+		WriteLine($"Error code : {descriptionDetails[0].Trim()}");
+		WriteLine($"Error description : {descriptionDetails[1].Trim()}");
 	}
 	else
-		Console.WriteLine($"Error description : {statusDescription}");
+		WriteLine($"Error description : {statusDescription}");
 }
