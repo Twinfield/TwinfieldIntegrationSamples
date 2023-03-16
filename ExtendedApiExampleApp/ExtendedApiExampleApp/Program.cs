@@ -9,7 +9,7 @@ else
 
 WaitForUser();
 
-static void ShowUsage() => Console.WriteLine("Demo.exe <accessToken> <clusterUrl> <companyCode>");
+static void ShowUsage() => Console.WriteLine("ExtendedApiExampleApp.exe <accessToken> <clusterUrl> <companyCode>");
 
 static void RunDemo(Options options)
 {
