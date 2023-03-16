@@ -30,7 +30,7 @@ static void GetCompanies(string accessToken, string clusterUrl)
 
 		var result = processXmlService.ProcessXmlString(
 			new Header { AccessToken = accessToken },
-			"<list><type>offices</type></list");
+			"<list><type>offices</type></list>");
 
 		var doc = XDocument.Parse(result);
 		var companies = doc.Root?.Elements("office").ToArray();

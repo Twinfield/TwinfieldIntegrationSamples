@@ -18,7 +18,7 @@ For further help on our API, please have a look at the documentation referenced 
 ### Prerequisites
 
 - Generate access token and cluster url using OAuth2ExampleApp 
-- Pass access token and cluster url generated using OAuth2ExampleApp - "ExtendedApiExampleApp.exe <accessToken> <clusterUrl> <companyCode>"
+- Pass access token and cluster url generated using OAuth2ExampleApp - "ExtendedApiExampleApp.exe AccessToken ClusterUrl CompanyCode"
 
 ## OAuth2ExampleApp
 
