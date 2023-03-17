@@ -1,6 +1,6 @@
 ## ApiExampleApp
 
-This example application shows how to inetegrate Twinfield processxml web service in non-web applications in simplest way.
+This example application shows how to integrate Twinfield processxml web service in non-web applications in simplest way.
 
 For further help on our API, please have a look at the documentation referenced on https://accounting.twinfield.com/webservices/documentation/.
 
@@ -11,7 +11,7 @@ For further help on our API, please have a look at the documentation referenced 
 
 ## ExtendedApiExampleApp
 
-This example application shows how to inetegrate different Twinfield web services (processxml, BankBookService etc) in non-web applications.
+This example application shows how to integrate different Twinfield web services (processxml, BankBookService etc) in non-web applications.
 
 For further help on our API, please have a look at the documentation referenced on https://accounting.twinfield.com/webservices/documentation/.
 
