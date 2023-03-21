@@ -9,7 +9,7 @@ namespace TwinfieldApi.Browse;
 
 public class BrowseService
 {
-	readonly ProcessXmlService processXml;
+	readonly IProcessXmlService processXml;
 
 	public BrowseService()
 	{
@@ -17,6 +17,11 @@ public class BrowseService
 		{
 			Compressed = true
 		};
+	}
+
+	public BrowseService(IProcessXmlService processXmlService)
+	{
+		processXml = processXmlService;
 	}
 
 	public BrowseDefinition ReadBrowseDefinition(string browseCode, string clusterUrl, string accessToken, string companyCode)

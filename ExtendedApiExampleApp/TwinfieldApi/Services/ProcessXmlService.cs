@@ -4,7 +4,7 @@ using TwinfieldProcessXmlService;
 
 namespace TwinfieldApi.Services;
 
-public class ProcessXmlService
+public class ProcessXmlService : IProcessXmlService
 {
 	readonly IClientFactory clientFactory;
 
@@ -45,7 +45,7 @@ public class ProcessXmlService
 		};
 		var response = client.ProcessXmlDocument(request);
 
-		return response?.ProcessXmlDocumentResult as XmlElement;
+		return ((XmlDocument)response?.ProcessXmlDocumentResult)?.DocumentElement;
 	}
 
 	static XmlElement ProcessCompressed(IProcessXmlSoapClient client, Header header, XmlDocument input)

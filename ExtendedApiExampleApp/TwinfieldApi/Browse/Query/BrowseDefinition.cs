@@ -5,6 +5,11 @@ namespace TwinfieldApi.Browse.Query;
 
 public class BrowseDefinition
 {
+	public string Office { get; set; }
+	public string Code { get; set; }
+	public string Name { get; set; }
+	public QueryColumnList QueryColumns { get; set; }
+
 	internal static BrowseDefinition FromXml(XmlElement element)
 	{
 		return new BrowseDefinition
@@ -14,15 +19,5 @@ public class BrowseDefinition
 			Name = element.SelectInnerText("name"),
 			QueryColumns = QueryColumnList.FromXml(element.SelectSingleElement("columns"))
 		};
-	}
-
-	public string Office { get; set; }
-	public string Code { get; set; }
-	public string Name { get; set; }
-	public QueryColumnList QueryColumns { get; set; }
-
-	internal XmlDocument ToXml()
-	{
-		return new XmlDocument();
 	}
 }

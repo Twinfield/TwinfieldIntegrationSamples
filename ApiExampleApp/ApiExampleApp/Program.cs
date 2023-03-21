@@ -120,12 +120,12 @@ static void HandleWebException(WebException webException)
 	if (webException == null) return;
 
 	WriteLine("Error occurred while processing the xml request.");
-	var statusCode = ((HttpWebResponse)webException.Response).StatusCode;
+	var statusCode = ((HttpWebResponse)webException.Response)?.StatusCode;
 	WriteLine($"Http status code : {statusCode}");
 
 	if (statusCode != HttpStatusCode.Forbidden &&
 		 statusCode != HttpStatusCode.Unauthorized) return;
-	var statusDescription = ((HttpWebResponse)webException.Response).StatusDescription;
+	var statusDescription = ((HttpWebResponse)webException.Response)?.StatusDescription;
 
 	if (string.IsNullOrWhiteSpace(statusDescription)) return;
 	if (statusDescription.Contains(":"))

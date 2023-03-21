@@ -72,5 +72,4 @@ class DimensionDemo
 		Console.WriteLine("name = {0}", dimension.Name);
 		Console.WriteLine();
 	}
-
 }

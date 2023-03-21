@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Net;
-using System.ServiceModel;
 using System.Xml;
 
 namespace TwinfieldApi.Utilities;
@@ -36,11 +35,6 @@ public static class Extensions
 		return target == null ? string.Empty : target.InnerText;
 	}
 
-	public static bool IsSuccess(this XmlDocument document)
-	{
-		return document != null && document.DocumentElement.IsSuccess();
-	}
-
 	public static bool IsSuccess(this XmlElement element)
 	{
 		return element != null && element.GetAttribute("result") == "1";
@@ -60,12 +54,12 @@ public static class Extensions
 		if (webException == null) return;
 
 		Console.WriteLine("Error occurred while processing the xml request.");
-		var statusCode = ((HttpWebResponse)webException.Response).StatusCode;
+		var statusCode = ((HttpWebResponse)webException.Response)?.StatusCode;
 		Console.WriteLine($"Http status code : {statusCode}");
 
 		if (statusCode != HttpStatusCode.Forbidden &&
 		    statusCode != HttpStatusCode.Unauthorized) return;
-		var statusDescription = ((HttpWebResponse)webException.Response).StatusDescription;
+		var statusDescription = ((HttpWebResponse)webException.Response)?.StatusDescription;
 
 		if (string.IsNullOrEmpty(statusDescription)) return;
 		if (statusDescription.Contains(":"))
@@ -77,27 +71,5 @@ public static class Extensions
 		}
 		else
 			Console.WriteLine($"Error description : {statusDescription}");
-	}
-
-	public static void HandleSoapException(this FaultException soapException)
-	{
-		if (soapException == null) return;
-
-		Console.WriteLine("Error occurred while processing the xml request.");
-		if (soapException.Data is XmlElement detail)
-		{
-			var el = (XmlElement)detail.SelectSingleNode("message");
-			if (el != null) Console.WriteLine($"Message : {el.InnerText}");
-			el = (XmlElement)detail.SelectSingleNode("code");
-			if (el != null) Console.WriteLine($"Code : {el.InnerText}");
-			el = (XmlElement)detail.SelectSingleNode("source");
-			if (el != null) Console.WriteLine($"Source : {el.InnerText}");
-			Console.WriteLine(detail.OuterXml);
-			return;
-
-		}
-
-		Console.WriteLine($"Message : {soapException.Message}");
-		Console.WriteLine($"Code : {soapException.Code}");
 	}
 }

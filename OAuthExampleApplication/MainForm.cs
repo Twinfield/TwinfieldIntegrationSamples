@@ -10,10 +10,7 @@ namespace OAuth2ExampleApp
 {
 	public partial class MainForm : Form
 	{
-		public MainForm()
-		{
-			InitializeComponent();
-		}
+		public MainForm() => InitializeComponent();
 
 		void btnAuthorize_Click(object sender, EventArgs e)
 		{
@@ -21,17 +18,15 @@ namespace OAuth2ExampleApp
 			var redirectUri = ConfigurationManager.AppSettings["RedirectUri"];
 
 			var result = AuthorizeDialog.Show(clientId, redirectUri);
-			if (result != null)
+			if (result != null && result.Success)
 			{
-				if (result.Success)
-				{
-					Log($"Authorized user {result.User} in organisation {result.Organisation}.");
-					GetCompanies(result.AccessToken, result.ClusterUrl);
-				}
-				else
-				{
-					Log($"Authorization failed: {result.Message}");
-				}
+
+				Log($"Authorized user {result.User} in organisation {result.Organisation}.");
+				GetCompanies(result.AccessToken, result.ClusterUrl);
+			}
+			else
+			{
+				Log($"Authorization failed: {result?.Message}");
 			}
 		}
 
@@ -47,6 +42,7 @@ namespace OAuth2ExampleApp
 
 			var doc = XDocument.Parse(result);
 			var offices = doc.Root?.Elements("office").ToArray();
+
 			Log($"Access token : {accessToken}");
 			AppendNewLine();
 			Log($"Cluster url : {clusterUrl}");
@@ -55,11 +51,12 @@ namespace OAuth2ExampleApp
 			AppendNewLine();
 			Log($"Displaying first 10 companies");
 			AppendNewLine();
-			if (offices != null && offices.Any())
-			{
-				foreach (var office in offices.Take(10))
-					Log($"{office.Attribute("name")?.Value} [{office.Value}]");
-			}
+
+			if (offices == null || !offices.Any()) 
+				return;
+
+			foreach (var office in offices.Take(10))
+				Log($"{office.Attribute("name")?.Value} [{office.Value}]");
 		}
 
 		void Log(string text)
@@ -70,6 +67,5 @@ namespace OAuth2ExampleApp
 		}
 
 		void AppendNewLine() => txtLog.AppendText(Environment.NewLine);
-		
 	}
 }

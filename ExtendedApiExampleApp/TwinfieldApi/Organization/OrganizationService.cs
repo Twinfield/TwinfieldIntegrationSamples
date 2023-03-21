@@ -7,7 +7,7 @@ namespace TwinfieldApi.Organization;
 
 public class OrganizationService
 {
-	readonly ProcessXmlService processXml;
+	readonly IProcessXmlService processXml;
 
 	public OrganizationService()
 	{

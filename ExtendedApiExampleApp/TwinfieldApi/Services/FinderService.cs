@@ -2,7 +2,7 @@
 
 namespace TwinfieldApi.Services;
 
-class FinderService
+public class FinderService : IFinderService
 {
 	readonly IClientFactory clientFactory;
 

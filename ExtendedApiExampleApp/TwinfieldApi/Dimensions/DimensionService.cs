@@ -8,8 +8,8 @@ namespace TwinfieldApi.Dimensions;
 
 public class DimensionService
 {
-	readonly ProcessXmlService processXml;
-	readonly FinderService finderService;
+	readonly IProcessXmlService processXml;
+	readonly IFinderService finderService;
 
 	public DimensionService()
 		: this(new ClientFactory())
@@ -74,30 +74,5 @@ public class DimensionService
 			Console.WriteLine(ex.Message);
 		}
 		return dimension;
-	}
-
-	public bool WriteDimension(Dimension dimension, string clusterUrl, string accessToken, string companyCode)
-	{
-		var result = false;
-		try
-		{
-			var response = processXml.Process(dimension.ToXml(), clusterUrl, accessToken, companyCode);
-			result = response.IsSuccess();
-		}
-		catch (FaultException ex)
-		{
-			Console.WriteLine("Error occurred while processing the xml request.");
-			Console.WriteLine(ex.Message);
-		}
-		catch (WebException ex)
-		{
-			ex.HandleWebException();
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine("Error occurred while processing the xml request.");
-			Console.WriteLine(ex.Message);
-		}
-		return result;
 	}
 }

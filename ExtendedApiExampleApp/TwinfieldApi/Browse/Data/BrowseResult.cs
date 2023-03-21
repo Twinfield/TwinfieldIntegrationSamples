@@ -5,6 +5,12 @@ namespace TwinfieldApi.Browse.Data;
 
 public class BrowseResult
 {
+	public int FirstRow { get; set; }
+	public int LastRow { get; set; }
+	public int TotalNumberOfRows { get; set; }
+	public List<Column> Columns { get; set; }
+	public List<Row> Rows { get; set; }
+
 	internal static BrowseResult FromXml(XmlElement element)
 	{
 		return new BrowseResult
@@ -16,12 +22,6 @@ public class BrowseResult
 			Rows = RowList.FromXml(element),
 		};
 	}
-
-	public int FirstRow { get; set; }
-	public int LastRow { get; set; }
-	public int TotalNumberOfRows { get; set; }
-	public List<Column> Columns { get; set; }
-	public List<Row> Rows { get; set; }
 }
 
 public class ColumnList
@@ -38,8 +38,6 @@ public class ColumnList
 		}
 		return columns;
 	}
-
-	public List<Column> Columns { get; set; }
 }
 
 public class Column

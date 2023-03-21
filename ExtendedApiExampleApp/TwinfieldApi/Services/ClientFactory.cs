@@ -36,8 +36,8 @@ public class ClientFactory : IClientFactory
 		var securityMode = uri.Scheme == "https" ? BasicHttpSecurityMode.Transport : BasicHttpSecurityMode.None;
 		var binding = new BasicHttpBinding(securityMode)
 		{
-			MaxReceivedMessageSize = 20000000,
-			SendTimeout = new TimeSpan(0, 0, 900)
+			MaxReceivedMessageSize = 20_000_000,
+			SendTimeout = TimeSpan.FromSeconds(900)
 		};
 		return binding;
 	}
