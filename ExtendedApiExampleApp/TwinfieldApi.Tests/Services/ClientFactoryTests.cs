@@ -3,43 +3,42 @@ using TwinfieldBankBookService;
 using TwinfieldFinderService;
 using TwinfieldProcessXmlService;
 
-namespace TwinfieldApi.Tests
+namespace TwinfieldApi.Tests.Services;
+
+class ClientFactoryTests
 {
-	class ClientFactoryTests
-	{
-		const string DummyUri = "https://dummy.test.com/v1";
+	const string DummyUri = "https://dummy.test.com/v1";
 		
-		[Test]
-		public void Should_create_bankbook_client()
-		{
-			var clientFactory = new ClientFactory();
+	[Test]
+	public void Should_create_bankbook_client()
+	{
+		var clientFactory = new ClientFactory();
 
-			var client = clientFactory.CreateBankBookClient(DummyUri);
+		var client = clientFactory.CreateBankBookClient(DummyUri);
 			
-			Assert.That(client, Is.Not.Null);
-			Assert.That(client, Is.TypeOf<BankBookServiceClient>());
-		}
+		Assert.That(client, Is.Not.Null);
+		Assert.That(client, Is.TypeOf<BankBookServiceClient>());
+	}
 
-		[Test]
-		public void Should_create_processXml_client()
-		{
-			var clientFactory = new ClientFactory();
+	[Test]
+	public void Should_create_processXml_client()
+	{
+		var clientFactory = new ClientFactory();
 
-			var client = clientFactory.CreateProcessXmlClient(DummyUri);
+		var client = clientFactory.CreateProcessXmlClient(DummyUri);
 
-			Assert.That(client, Is.Not.Null);
-			Assert.That(client, Is.TypeOf<ProcessXmlSoapClient>());
-		}
+		Assert.That(client, Is.Not.Null);
+		Assert.That(client, Is.TypeOf<ProcessXmlSoapClient>());
+	}
 
-		[Test]
-		public void Should_create_finder_client()
-		{
-			var clientFactory = new ClientFactory();
+	[Test]
+	public void Should_create_finder_client()
+	{
+		var clientFactory = new ClientFactory();
 
-			var client = clientFactory.CreateFinderClient(DummyUri);
+		var client = clientFactory.CreateFinderClient(DummyUri);
 
-			Assert.That(client, Is.Not.Null);
-			Assert.That(client, Is.TypeOf<FinderSoapClient>());
-		}
+		Assert.That(client, Is.Not.Null);
+		Assert.That(client, Is.TypeOf<FinderSoapClient>());
 	}
 }

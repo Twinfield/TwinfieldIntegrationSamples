@@ -15,7 +15,7 @@ class OrganizationDemo
 	{
 		Console.WriteLine("Displaying first 10 companies");
 
-		var companyList = organizationService.GetOffices(clusterUrl, accessToken);
+		var companyList = organizationService.GetCompanies(clusterUrl, accessToken);
 		Console.WriteLine("Found {0} companies:", companyList.Count);
 
 		Console.WriteLine("{0,-16} {1}", "Code", "Name");

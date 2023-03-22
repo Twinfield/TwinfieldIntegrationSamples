@@ -5,7 +5,7 @@ namespace TwinfieldApi.Browse.Query;
 
 public class BrowseDefinition
 {
-	public string Office { get; set; }
+	public string Company { get; set; }
 	public string Code { get; set; }
 	public string Name { get; set; }
 	public QueryColumnList QueryColumns { get; set; }
@@ -14,7 +14,7 @@ public class BrowseDefinition
 	{
 		return new BrowseDefinition
 		{
-			Office = element.SelectInnerText("office"),
+			Company = element.SelectInnerText("office"),
 			Code = element.SelectInnerText("code"),
 			Name = element.SelectInnerText("name"),
 			QueryColumns = QueryColumnList.FromXml(element.SelectSingleElement("columns"))

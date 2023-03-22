@@ -29,7 +29,7 @@ public class BrowseService
 		BrowseDefinition browseDefinition = null;
 		var command = new ReadBrowseDefinitionCommand
 		{
-			Office = companyCode,
+			Company = companyCode,
 			Code = browseCode
 		};
 		try

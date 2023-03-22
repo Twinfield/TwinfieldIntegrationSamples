@@ -14,14 +14,19 @@ public class OrganizationService
 		processXml = new ProcessXmlService();
 	}
 
-	public List<OfficeSummary> GetOffices(string clusterUrl, string accessToken)
+	public OrganizationService(IProcessXmlService processXmlService)
 	{
-		List<OfficeSummary> officeSummaries = null;
+		processXml = processXmlService;
+	}
+
+	public List<CompanySummary> GetCompanies(string clusterUrl, string accessToken)
+	{
+		List<CompanySummary> companySummaries = null;
 		try
 		{
-			var command = new ListOfficesCommand();
+			var command = new ListCompanyCommand();
 			var response = processXml.Process(command.ToXml(), clusterUrl, accessToken, null);
-			officeSummaries = OfficeSummaryList.FromXml(response);
+			companySummaries = CompanySummaryList.FromXml(response);
 		}
 		catch (FaultException ex)
 		{
@@ -37,6 +42,6 @@ public class OrganizationService
 			Console.WriteLine("Error occurred while processing the xml request.");
 			Console.WriteLine(ex.Message);
 		}
-		return officeSummaries;
+		return companySummaries;
 	}
 }

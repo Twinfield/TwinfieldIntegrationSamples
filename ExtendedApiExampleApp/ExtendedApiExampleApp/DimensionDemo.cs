@@ -30,12 +30,11 @@ class DimensionDemo
 	{
 		Console.WriteLine("Searching for customers with a name that starts with an A");
 
-		const int searchField = 2; // Search in name field
+		const int searchField = 2;
 		var customers = dimensionService.FindDimensions("a*", CustomerDimensionType, searchField, clusterUrl,accessToken, companyCode);
 			
 		DisplayCustomerSummaries(customers);
 
-		// Save first customer for later demo
 		customerSummary = customers.First();
 		return true;
 	}
@@ -66,7 +65,7 @@ class DimensionDemo
 	static void DisplayCustomerDetails(Dimension dimension)
 	{
 		Console.WriteLine("Customer details:");
-		Console.WriteLine("office = {0}", dimension.Office);
+		Console.WriteLine("company = {0}", dimension.Company);
 		Console.WriteLine("type = {0}", dimension.Type);
 		Console.WriteLine("code = {0}", dimension.Code);
 		Console.WriteLine("name = {0}", dimension.Name);

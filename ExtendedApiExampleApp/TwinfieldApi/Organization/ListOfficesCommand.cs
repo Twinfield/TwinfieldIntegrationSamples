@@ -3,7 +3,7 @@ using TwinfieldApi.Utilities;
 
 namespace TwinfieldApi.Organization;
 
-class ListOfficesCommand
+class ListCompanyCommand
 {
 	internal XmlDocument ToXml()
 	{

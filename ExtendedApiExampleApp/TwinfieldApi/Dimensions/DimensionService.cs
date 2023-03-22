@@ -21,6 +21,12 @@ public class DimensionService
 		finderService = new FinderService(clientFactory);
 	}
 
+	public DimensionService(IProcessXmlService processXmlService, IFinderService finderService)
+	{
+		processXml = processXmlService;
+		this.finderService = finderService;
+	}
+
 	public List<DimensionSummary> FindDimensions(string pattern, string dimensionType, int field, string clusterUrl, string accessToken, string companyCode)
 	{
 		var query = new FinderService.Query
@@ -52,7 +58,7 @@ public class DimensionService
 		{
 			var command = new ReadDimensionCommand
 			{
-				Office = companyCode,
+				Company = companyCode,
 				DimensionType = dimensionType,
 				DimensionCode = dimensionCode
 			};

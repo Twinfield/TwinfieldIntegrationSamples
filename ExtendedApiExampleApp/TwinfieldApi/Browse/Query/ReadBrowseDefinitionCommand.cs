@@ -5,7 +5,7 @@ namespace TwinfieldApi.Browse.Query;
 
 class ReadBrowseDefinitionCommand
 {
-	public string Office { get; set; }
+	public string Company { get; set; }
 	public string Code { get; set; }
 
 	internal XmlDocument ToXml()
@@ -13,7 +13,7 @@ class ReadBrowseDefinitionCommand
 		var command = new XmlDocument();
 		var readElement = command.AppendNewElement("read");
 		readElement.AppendNewElement("type").InnerText = "browse";
-		readElement.AppendNewElement("office").InnerText = Office;
+		readElement.AppendNewElement("office").InnerText = Company;
 		readElement.AppendNewElement("code").InnerText = Code;
 		return command;
 	}

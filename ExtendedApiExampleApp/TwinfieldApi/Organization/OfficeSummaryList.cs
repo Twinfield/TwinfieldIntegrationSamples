@@ -2,11 +2,11 @@
 
 namespace TwinfieldApi.Organization;
 
-public class OfficeSummaryList
+public class CompanySummaryList
 {
-	internal static List<OfficeSummary> FromXml(XmlElement officesElement)
+	internal static List<CompanySummary> FromXml(XmlElement companiesElement)
 	{
-		return (from XmlElement officeNode in officesElement.SelectNodes("office")
-			select OfficeSummary.FromXml(officeNode)).ToList();
+		return (from XmlElement companyNode in companiesElement.SelectNodes("office")
+			select CompanySummary.FromXml(companyNode)).ToList();
 	}
 }

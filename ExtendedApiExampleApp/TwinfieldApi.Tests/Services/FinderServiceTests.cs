@@ -1,9 +1,8 @@
 ﻿using NSubstitute;
 using TwinfieldApi.Services;
 using TwinfieldFinderService;
-using static NUnit.Framework.Assert;
 
-namespace TwinfieldApi.Tests;
+namespace TwinfieldApi.Tests.Services;
 
 class FinderServiceTests : BaseTestData
 {
@@ -12,10 +11,9 @@ class FinderServiceTests : BaseTestData
 
 
 	[Test]
-	public void Should_find_data()
+	public void Should_find_data_when_requested_using_finder_service()
 	{
 		var clientFactory = Substitute.For<IClientFactory>();
-
 
 		var finderSoapClient = Substitute.For<IFinderSoapClient>();
 
@@ -27,16 +25,12 @@ class FinderServiceTests : BaseTestData
 
 		var finderData = finderService.Search(GetQuery(), ClusterUrl, AccessToken, CompanyCode);
 
-		IsNotNull(finderData);
 		CollectionAssert.AreEqual(finderData.Columns, Columns);
 		CollectionAssert.AreEqual(finderData.Items[0], ColumnValues);
 	}
 
 	static FinderService.Query GetQuery()
 	{
-		var options = new string[3][];
-		options[0] = new[] { "dimtype", "DEB" };
-		options[1] = new[] { "section", "financials" };
 		return new FinderService.Query
 		{
 			Field = 0,
@@ -57,7 +51,7 @@ class FinderServiceTests : BaseTestData
 				Columns = Columns,
 				Items = new[]
 				{
-						ColumnValues
+					ColumnValues
 				}
 			}
 		};

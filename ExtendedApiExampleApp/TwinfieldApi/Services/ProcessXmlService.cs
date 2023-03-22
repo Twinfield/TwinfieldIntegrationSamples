@@ -45,7 +45,7 @@ public class ProcessXmlService : IProcessXmlService
 		};
 		var response = client.ProcessXmlDocument(request);
 
-		return ((XmlDocument)response?.ProcessXmlDocumentResult)?.DocumentElement;
+		return response?.ProcessXmlDocumentResult as XmlElement;
 	}
 
 	static XmlElement ProcessCompressed(IProcessXmlSoapClient client, Header header, XmlDocument input)
