@@ -9,7 +9,6 @@ class FinderServiceTests : BaseTestData
 	readonly string[] Columns = { "A", "B" };
 	readonly string[] ColumnValues = { "A1", "B1" };
 
-
 	[Test]
 	public void Should_find_data_when_requested_using_finder_service()
 	{
@@ -56,6 +55,4 @@ class FinderServiceTests : BaseTestData
 			}
 		};
 	}
-
 }
-

@@ -7,7 +7,6 @@ namespace TwinfieldApi.Services;
 
 public class ClientFactory : IClientFactory
 {
-		
 	const string FinderServicePath = "/webservices/finder.asmx";
 	const string BankbookServicePath = "/webservices/BankBookService.svc";
 	const string ProcessXmlServicePath = "/webservices/processxml.asmx";

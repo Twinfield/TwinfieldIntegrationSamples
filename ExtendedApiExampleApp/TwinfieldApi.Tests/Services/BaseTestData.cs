@@ -1,6 +1,4 @@
-﻿using System.ServiceModel;
-
-namespace TwinfieldApi.Tests.Services;
+﻿namespace TwinfieldApi.Tests.Services;
 
 class BaseTestData
 {

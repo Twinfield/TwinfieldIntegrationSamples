@@ -23,7 +23,6 @@ class BankbookServiceTests : BaseTestData
 
 		var bankBook = bankbookService.FindBankBook(BankbookCode, ClusterUrl, AccessToken, CompanyCode);
 
-
 		Assert.That(bankBook, Is.Not.Null);
 		Assert.That(bankBook.Name, Is.EqualTo(BankbookName));
 		Assert.That(bankBook.AccountNumber, Is.EqualTo(BankAccountNumber));

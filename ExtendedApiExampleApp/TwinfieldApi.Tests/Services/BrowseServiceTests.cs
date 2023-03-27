@@ -16,7 +16,8 @@ class BrowseServiceTests : BaseTestData
 			<name>{TestBrowseName}</name><shortname>{TestBrowseName}</shortname><visible>true</visible>
 			<columns code='020'>
 				<column id='1'><field>ColumnA</field><label>A</label><visible>true</visible><ask>true</ask><operator>between</operator><from>$DEFAULT$</from><to>$DEFAULT$</to><finderparam></finderparam></column><column id='2'><field>ColumnB</field><label>B</label><visible>true</visible><ask>true</ask><operator>equal</operator><from></from><to></to><finderparam></finderparam></column>
-			</columns></result>";
+			</columns>
+		</result>";
 
 	[Test]
 	public void Should_read_browse_definition_when_browse_code_is_provided()

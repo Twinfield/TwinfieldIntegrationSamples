@@ -5,6 +5,7 @@ using TwinfieldApi.Services;
 using TwinfieldApi.Utilities;
 
 namespace TwinfieldApi.Tests.Services;
+
 class OrganizationServiceTests : BaseTestData
 {
 	const string CompanyCode1 = "C001";
@@ -12,7 +13,7 @@ class OrganizationServiceTests : BaseTestData
 	const string CompanyName1 = "C001";
 	const string CompanyName2 = "C002";
 	const string CompanyXml =
-		@$"<result>
+			@$"<result>
 				<office name='{CompanyName1}' shortname='{CompanyCode1}'>{CompanyCode1}</office>
 				<office name='{CompanyName2}' shortname='{CompanyCode2}'>{CompanyCode2}</office>			
 			</result>";
@@ -43,5 +44,4 @@ class OrganizationServiceTests : BaseTestData
 				new() { Code = CompanyCode2, Name = CompanyName2 }
 			};
 	}
-
 }
