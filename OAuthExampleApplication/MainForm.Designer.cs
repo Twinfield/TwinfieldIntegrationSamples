@@ -53,13 +53,13 @@ namespace OAuth2ExampleApp
 			this.label1.Size = new System.Drawing.Size(581, 34);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Make sure you create a client first at https://developers.twinfield.com and updat" +
-    "e the code. \r\nClick Authorize to start.";
+	 "e the ClientId present in app.config file. \r\nClick Authorize to start.";
 			// 
 			// txtLog
 			// 
 			this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLog.Location = new System.Drawing.Point(12, 96);
 			this.txtLog.MaxLength = 327670;
 			this.txtLog.Multiline = true;

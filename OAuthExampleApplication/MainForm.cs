@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
-using System.ServiceModel;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using OAuth2ExampleApp.TwinfieldProcessXml;
 
 namespace OAuth2ExampleApp
 {
@@ -21,42 +19,37 @@ namespace OAuth2ExampleApp
 			if (result != null && result.Success)
 			{
 
-				Log($"Authorized user {result.User} in organisation {result.Organisation}.");
-				GetCompanies(result.AccessToken, result.ClusterUrl);
+				Log($"Authorized user {result.User} in organization {result.Organisation}.");
+				DisplayCompanies(result.AccessToken, result.ClusterUrl);
 			}
 			else
-			{
 				Log($"Authorization failed: {result?.Message}");
-			}
+			
 		}
 
-		void GetCompanies(string accessToken, string clusterUrl)
+		void DisplayCompanies(string accessToken, string clusterUrl)
 		{
-			var processXmlService = new ProcessXmlSoapClient(
-				new BasicHttpsBinding(),
-				new EndpointAddress(clusterUrl + "/webservices/processxml.asmx"));
+			var processXmlService = new ProcessXmlService(clusterUrl);
 
-			var result = processXmlService.ProcessXmlString(
-				new Header { AccessToken = accessToken },
-				"<list><type>offices</type></list>");
+			var result = processXmlService.GetCompanies(accessToken);
 
 			var doc = XDocument.Parse(result);
-			var offices = doc.Root?.Elements("office").ToArray();
+			var companies = doc.Root?.Elements("office").ToArray();
 
 			Log($"Access token : {accessToken}");
 			AppendNewLine();
 			Log($"Cluster url : {clusterUrl}");
 			AppendNewLine();
-			Log($"Found {offices?.Length} companies");
+			Log($"Found {companies?.Length} companies");
 			AppendNewLine();
 			Log($"Displaying first 10 companies");
 			AppendNewLine();
 
-			if (offices == null || !offices.Any()) 
+			if (companies == null || !companies.Any()) 
 				return;
 
-			foreach (var office in offices.Take(10))
-				Log($"{office.Attribute("name")?.Value} [{office.Value}]");
+			foreach (var company in companies.Take(10))
+				Log($"{company.Attribute("name")?.Value} [{company.Value}]");
 		}
 
 		void Log(string text)
