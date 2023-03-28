@@ -60,7 +60,7 @@ void DisplayCustomers()
 
 	try
 	{
-		WriteLine("\nEnter company : ");
+		WriteLine("\nEnter company code : ");
 		var companyCode = ReadLine();
 
 		if (string.IsNullOrWhiteSpace(companyCode))

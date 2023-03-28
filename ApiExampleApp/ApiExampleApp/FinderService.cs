@@ -22,7 +22,7 @@ class FinderService
 		options[1] = new[] { "section", "financials" };
 
 		var errorMessages = finderSoapClient.Search(
-			Header: new ApiExampleApp.Finder.Header() { AccessToken = accessToken, CompanyCode = companyCode }, "DIM",
+			Header: new Header() { AccessToken = accessToken, CompanyCode = companyCode }, "DIM",
 			pattern: "1*", field: 3, firstRow: 1, maxRows: 10, options: options, out var finderData);
 
 		return new FinderDataModel { Errors = errorMessages, Data = finderData };

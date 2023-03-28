@@ -53,7 +53,7 @@ namespace OAuth2ExampleApp
 			this.label1.Size = new System.Drawing.Size(581, 34);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Make sure you create a client first at https://developers.twinfield.com and updat" +
-	 "e the ClientId present in app.config file. \r\nClick Authorize to start.";
+	 "e the ClientId && RedirectUri present in app.config file. \r\nClick Authorize to start.";
 			// 
 			// txtLog
 			// 
