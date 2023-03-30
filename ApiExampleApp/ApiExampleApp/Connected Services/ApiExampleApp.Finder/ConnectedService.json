@@ -1,0 +1,17 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "https://api.accounting.twinfield.com/webservices/finder.asmx?wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, ApiExampleApp.Finder"
+    ],
+    "sync": true,
+    "targetFramework": "net6.0",
+    "typeReuseMode": "None"
+  }
+}
