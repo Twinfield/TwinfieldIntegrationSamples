@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: TwinfieldIntegrationSamples
+  annotations:
+    wolterskluwer.io/bit-id: 041800000L9T
+spec:
+  type: website
+  lifecycle: production
+  owner: Chris.Weldon@wolterskluwer.com
